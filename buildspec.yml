@@ -1,0 +1,14 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - cd xsquare-calculation-app/
+      - npm install
+  build:
+    commands:
+      - echo start build
+      - npm test
+      - cd ../
+      - docker-compose up vue -d
+      - docker-compose up -d
