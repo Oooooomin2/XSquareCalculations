@@ -10,5 +10,3 @@ phases:
       - echo start build
       - npm test
       - cd ../
-      - docker-compose up -d vue
-      - docker-compose up -d
