@@ -1,0 +1,45 @@
+version: "3.5"
+
+services:
+  mysql:
+    container_name: xman
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: 'xsquarecalculationsapiDB'
+      MYSQL_USER: "manager"
+      MYSQL_PASSWORD: "SetSaPWD"
+      MYSQL_ROOT_PASSWORD: "SetSaPWDRoot"
+    restart: 'always'
+    expose:
+      - '3307'
+    ports:
+      - "3307:3306"
+    networks:
+      - xSquareCalculationsAPI
+
+  webapi:
+    container_name: "xsquarecalculationsapi-server"
+    build:
+      context: "./"
+      dockerfile: "Dockerfile"
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mysql
+    networks:
+      - xSquareCalculationsAPI
+
+  vue:
+    container_name: "xsquarecalculationsapi-client"
+    build:
+      context: "./xsquare-calculation-app/"
+      dockerfile: "Dockerfile"
+    ports:
+      - "8080:80"
+      - "8081:443"
+    networks:
+      - xSquareCalculationsAPI
+
+networks:
+  xSquareCalculationsAPI:
+    driver: bridge

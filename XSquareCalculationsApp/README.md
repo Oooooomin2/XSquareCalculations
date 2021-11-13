@@ -1,0 +1,2 @@
+# XSquareCalculationsApp
+Xマス計算ダウンロードアプリです。
