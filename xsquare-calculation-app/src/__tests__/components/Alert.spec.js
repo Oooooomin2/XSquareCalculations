@@ -39,7 +39,7 @@ describe('アラートの出力値(色やメッセージ)は適切か', () => {
             }
         });
 
-        expect(wrapper.findAll('p').at(0).text()).toBe('成');
+        expect(wrapper.findAll('p').at(0).text()).toBe('成功');
         expect(wrapper.findAll('p').at(1).text()).toBe('成功しました');
         expect(wrapper.classes()).toContain('bg-green-100');
         expect(wrapper.classes()).toContain('border-green-500');
