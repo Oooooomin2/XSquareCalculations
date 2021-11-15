@@ -2,6 +2,13 @@
   <div class="huifont109 mt-20">
     <h1 class="text-6xl">ユーザ登録</h1>
     <form class="w-full max-w-xl mx-auto mt-20" @submit.prevent>
+      <div
+        class="text-red-500 font-bold my-2"
+        v-for="error in errors"
+        :key="error"
+      >
+        {{ error }}
+      </div>
       <div class="mb-6">
         <div class="md:flex p-3">
           <div class="md:w-1/3">
@@ -89,17 +96,34 @@
 
 <script>
 import axios from "axios";
-//import bcrypt from "bcrypt";
 
 export default {
   data() {
     return {
       userName: "",
       password: "",
+      errors: [],
     };
   },
   methods: {
     registUser() {
+      this.errors = [];
+      if (!this.userName) {
+        this.errors.push("ユーザ名を入力してください。");
+      }
+
+      if (!this.password) {
+        this.errors.push("パスワードを入力してください。");
+      }
+
+      if (this.password && this.password.length < 8) {
+        this.errors.push("パスワードは8文字以上で入力してください。");
+      }
+
+      if (this.errors.length > 0) {
+        return;
+      }
+
       let formData = new FormData();
       formData.append("userName", this.userName);
       formData.append("userPassword", this.password);
@@ -109,8 +133,12 @@ export default {
           this.$store.dispatch("createUser");
           this.$router.replace("login");
         })
-        .catch(function (error) {
-          console.log(error);
+        .catch((error) => {
+          this.$store.dispatch("failCreateUser");
+          if (error.response.data.content === "DuplicateUserName") {
+            this.errors.push(error.response.data.message);
+            return;
+          }
         });
     },
   },
