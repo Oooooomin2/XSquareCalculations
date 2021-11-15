@@ -189,6 +189,21 @@ const store = createStore({
                     "text-red-700": false,
                 },
             })
+        },
+        failCreateUser({ commit }) {
+            commit('updateAlert', {
+                isResponse: true,
+                responseTitle: 'Fail...',
+                responseMessage: 'ユーザ登録に失敗しました...ごめんなさい...',
+                responseClass: {
+                    "bg-green-100": false,
+                    "border-green-500": false,
+                    "text-green-700": false,
+                    "bg-red-100": true,
+                    "border-red-500": true,
+                    "text-red-700": true,
+                },
+            })
         }
     }
 });

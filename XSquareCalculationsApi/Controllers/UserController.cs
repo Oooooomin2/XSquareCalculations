@@ -42,7 +42,23 @@ namespace XSquareCalculationsApi.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var IsExistedUserName = _resolveUsersRepository.IsDuplicateUserRegist(user.UserName);
-            if (IsExistedUserName) return BadRequest("このユーザ名は既に使われています。");
+            if (IsExistedUserName)
+            {
+                return BadRequest(new ApiResponse
+                { 
+                    Content = "DuplicateUserName",
+                    Message = "このユーザ名は既に使われています。"
+                });
+            }
+
+            if(user.UserPassword.Length < 8)
+            {
+                return BadRequest(new ApiResponse
+                {
+                    Content = "ShortPasswordLength",
+                    Message = "パスワードは8文字以上にしてください。"
+                });
+            }
 
             user.PasswordSalt = _password.CreateSaltBase64();
             user.UserPassword = _password.CreatePasswordHashBase64(user.PasswordSalt, user.UserPassword);
