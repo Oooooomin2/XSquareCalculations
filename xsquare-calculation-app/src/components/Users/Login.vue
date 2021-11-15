@@ -2,6 +2,13 @@
   <div class="huifont109 mt-20">
     <h1 class="text-6xl">ログイン</h1>
     <form class="w-full max-w-xl mx-auto mt-20" @submit.prevent>
+      <div
+        class="text-red-500 font-bold my-2"
+        v-for="error in errors"
+        :key="error"
+      >
+        {{ error }}
+      </div>
       <div class="mb-6">
         <div class="md:flex p-3">
           <div class="md:w-1/3">
@@ -109,13 +116,30 @@ export default {
   },
   methods: {
     login() {
-      this.$store
-        .dispatch("login", {
-          userName: this.userName,
-          userPassword: this.userPassword,
-        });
+      this.$store.dispatch("refleshErrors");
+      if (!this.userName) {
+        this.errors.push("ユーザ名を入力してください。");
+      }
+
+      if (!this.userPassword) {
+        this.errors.push("パスワードを入力してください。");
+      }
+
+      if (this.errors.length > 0) {
+        return;
+      }
+
+      this.$store.dispatch("login", {
+        userName: this.userName,
+        userPassword: this.userPassword,
+      });
       this.userName = "";
       this.userPassword = "";
+    },
+  },
+  computed: {
+    errors: function () {
+      return this.$store.getters.errors;
     },
   },
 };

@@ -33,7 +33,14 @@ namespace XSquareCalculationsApi.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var target = _resolveUserRepository.GetUserWithUserName(user.UserName);
-            if(target == null) return BadRequest("ユーザ名かパスワードが正しくありません。");
+            if (target == null) 
+            {
+                return BadRequest(new ApiResponse
+                {
+                    Content = "LoginFailed",
+                    Message = "ユーザ名かパスワードが正しくありません。"
+                });
+            }
 
             var userPasswordBase64 = _password.CreatePasswordHashBase64(target.PasswordSalt, user.UserPassword);
             if (target.UserPassword == userPasswordBase64)
@@ -53,7 +60,11 @@ namespace XSquareCalculationsApi.Controllers
             }
             else
             {
-                return BadRequest("ユーザ名かパスワードが正しくありません。");
+                return BadRequest(new ApiResponse
+                {
+                    Content = "LoginFailed",
+                    Message = "ユーザ名かパスワードが正しくありません。"
+                });
             }
         }
     }
