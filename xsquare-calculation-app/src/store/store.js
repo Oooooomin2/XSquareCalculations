@@ -19,6 +19,7 @@ const store = createStore({
                 "border-red-500": false,
                 "text-red-700": false,
             },
+            errors: []
         }
     },
     getters: {
@@ -28,7 +29,8 @@ const store = createStore({
         isResponse: state => state.isResponse,
         responseTitle: state => state.responseTitle,
         responseMessage: state => state.responseMessage,
-        responseClass: state => state.responseClass
+        responseClass: state => state.responseClass,
+        errors: state => state.errors
     },
     mutations: {
         updateIdToken(state, data) {
@@ -41,6 +43,12 @@ const store = createStore({
             state.responseTitle = data.responseTitle;
             state.responseMessage = data.responseMessage;
             state.responseClass = data.responseClass;
+        },
+        addError(state, data) {
+            state.errors = data.errors;
+        },
+        refleshErrors(state) {
+            state.errors = [];
         }
     },
     actions: {
@@ -57,6 +65,9 @@ const store = createStore({
                 commit('updateIdToken', { idToken: idToken, userId: userId, expiredDateTime: expiredDateTime })
             }
         },
+        refleshErrors({ commit }) {
+            commit('refleshErrors');
+        },
         login({ commit }, authData) {
             return new Promise((resolve, reject) => {
                 axios
@@ -65,30 +76,32 @@ const store = createStore({
                         userPassword: authData.userPassword
                     })
                     .then(function (response) {
-                        if (response.status === 200) {
-                            commit('updateIdToken', response.data);
-                            localStorage.setItem('idToken', response.data.idToken);
-                            localStorage.setItem('userId', response.data.userId);
-                            localStorage.setItem('expiredDateTime', response.data.expiredDateTime);
-                            commit('updateAlert', {
-                                isResponse: true,
-                                responseTitle: 'Success!!',
-                                responseMessage: 'ログインしました！！',
-                                responseClass: {
-                                    "bg-green-100": true,
-                                    "border-green-500": true,
-                                    "text-green-700": true,
-                                    "bg-red-100": false,
-                                    "border-red-500": false,
-                                    "text-red-700": false,
-                                },
-                            })
-                            resolve(response)
-                            router.replace({ name: 'home', params: { login: 'success' } });
-                        }
+                        commit('updateIdToken', response.data);
+                        localStorage.setItem('idToken', response.data.idToken);
+                        localStorage.setItem('userId', response.data.userId);
+                        localStorage.setItem('expiredDateTime', response.data.expiredDateTime);
+                        commit('updateAlert', {
+                            isResponse: true,
+                            responseTitle: 'Success!!',
+                            responseMessage: 'ログインしました！！',
+                            responseClass: {
+                                "bg-green-100": true,
+                                "border-green-500": true,
+                                "text-green-700": true,
+                                "bg-red-100": false,
+                                "border-red-500": false,
+                                "text-red-700": false,
+                            },
+                        })
+                        resolve(response)
+                        router.replace({ name: 'home', params: { login: 'success' } });
                     })
-                    .catch(function () {
-                        console.log('storeのcatch')
+                    .catch(function (error) {
+                        let errors = [];
+                        if (error.response.data.content === 'LoginFailed') {
+                            console.log(error.response.data.message)
+                            errors.push(error.response.data.message);
+                        }
                         commit('updateAlert', {
                             isResponse: true,
                             responseTitle: 'Fail...',
@@ -100,8 +113,12 @@ const store = createStore({
                                 "bg-red-100": true,
                                 "border-red-500": true,
                                 "text-red-700": true,
-                            },
-                        })
+                            }
+                        });
+
+                        commit('addError', {
+                            errors: errors
+                        });
                         reject();
                     })
             })
