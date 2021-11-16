@@ -90,10 +90,46 @@ namespace XSquareCalculationsApi.Controllers
                 var fileBytes = ms.ToArray();
                 if(file.Name == "templateBlob")
                 {
+                    if(file.ContentType != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                    {
+                        return BadRequest(new ApiResponse
+                        {
+                            Content = "TemplateFormatError",
+                            Message = "テンプレートはExcel(.xlsx)を登録してください。"
+                        });
+                    }
+
+                    if (file.Length > 2048000)
+                    {
+                        return BadRequest(new ApiResponse
+                        {
+                            Content = "TemplateSizeError",
+                            Message = "テンプレートのサイズは2MB以下にする必要があります。"
+                        });
+                    }
+
                     template.TemplateBlob = fileBytes;
                 }
                 if(file.Name == "thumbNail")
                 {
+                    if (file.ContentType != "image/png")
+                    {
+                        return BadRequest(new ApiResponse
+                        {
+                            Content = "ThumbNailFormatError",
+                            Message = "サムネイルは画像(.png形式)を登録してください。"
+                        });
+                    }
+
+                    if(file.Length > 2048000)
+                    {
+                        return BadRequest(new ApiResponse
+                        {
+                            Content = "ThumbNailSizeError",
+                            Message = "サムネイルのサイズは2MB以下にする必要があります。"
+                        });
+                    }
+
                     template.ThumbNail = Convert.ToBase64String(fileBytes);
                 }
             }

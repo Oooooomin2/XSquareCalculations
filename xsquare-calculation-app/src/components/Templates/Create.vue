@@ -2,6 +2,13 @@
   <div class="huifont109 mt-20">
     <h1 class="text-6xl">テンプレート登録</h1>
     <form class="w-full max-w-xl mx-auto mt-20" @submit.prevent="uploadFile">
+      <div
+        class="text-red-500 font-bold my-2"
+        v-for="error in errors"
+        :key="error"
+      >
+        {{ error }}
+      </div>
       <div class="md:flex md:items-center mb-6">
         <div class="md:w-1/3">
           <label
@@ -64,10 +71,11 @@
           </svg>
           <span class="mt-2 text-base leading-normal">{{ thumbNailName }}</span>
           <input
+            id="thumbNailNameId"
             type="file"
             @change="postThumbNailFile"
             class="hidden"
-            accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            accept="image/png"
           />
         </label>
       </div>
@@ -165,6 +173,7 @@ export default {
       fileName: "ファイルを選択してください",
       templateName: "",
       templateFile: null,
+      thumbNailFile: null,
     };
   },
   computed: {
@@ -174,31 +183,80 @@ export default {
         idToken: this.$store.getters.idToken,
       };
     },
+    errors: function () {
+      return this.$store.getters.errors;
+    },
   },
   methods: {
     postThumbNailFile(e) {
-      e.preventDefault();
       let files = e.target.files;
+      if (files[0].type !== "image/png") {
+        this.$store.dispatch("addError", {
+          errors: ["サムネイルは画像(.png形式)を登録してください。"],
+        });
+        return;
+      }
+
+      if (files[0].size > 2048000) {
+        this.$store.dispatch("addError", {
+          errors: ["ファイルサイズは2MB以下である必要があります。"],
+        });
+        return;
+      }
+
+      this.$store.dispatch("refleshErrors");
       this.thumbNailFile = files[0];
       this.thumbNailName = files[0].name;
     },
     postFile(e) {
-      e.preventDefault();
       let files = e.target.files;
+      if (
+        files[0].type !==
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      ) {
+        this.$store.dispatch("addError", {
+          errors: ["テンプレートはExcel(.xlsx)を登録してください。"],
+        });
+        return;
+      }
+
+      if (files[0].size > 2048000) {
+        this.$store.dispatch("addError", {
+          errors: ["ファイルサイズは2MB以下である必要があります。"],
+        });
+        return;
+      }
+
+      this.$store.dispatch("refleshErrors");
       this.templateFile = files[0];
       this.fileName = files[0].name;
     },
     upload() {
+      this.$store.dispatch("refleshErrors");
+
+      if (!this.templateName) {
+        this.errors.push("テンプレート名を入力してください。");
+      }
+
+      if (!this.templateFile) {
+        this.errors.push("テンプレートをアップしてください。");
+      }
+
+      if (this.errors.length > 0) {
+        return;
+      }
+
       let formData = new FormData();
       formData.append("templateBlob", this.templateFile);
       formData.append("thumbNail", this.thumbNailFile);
       formData.append("templateName", this.templateName);
-      this.$store
-        .dispatch("createTemplate", formData);
+      this.$store.dispatch("createTemplate", formData);
+
       this.templateName = "";
       this.fileName = "ファイルを選択してください";
       this.templateFile = null;
       this.thumbNailName = "サムネイル画像を選択してください";
+      this.thumbNailFile = null;
     },
   },
 };
