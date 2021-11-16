@@ -32,12 +32,13 @@ export default {
     responseClass: function () {
       return {
         "bg-green-100": this.$store.getters.responseClass["bg-green-100"],
-        "border-green-500":
-          this.$store.getters.responseClass["border-green-500"],
+        "border-green-500": this.$store.getters.responseClass["border-green-500"],
         "text-green-700": this.$store.getters.responseClass["text-green-700"],
         "bg-red-100": this.$store.getters.responseClass["bg-red-100"],
         "border-red-500": this.$store.getters.responseClass["border-red-500"],
         "text-red-700": this.$store.getters.responseClass["text-red-700"],
+        "sticky": this.$store.getters.responseClass["sticky"],
+        "bottom-2.5": this.$store.getters.responseClass["bottom-2.5"]
       };
     },
   },

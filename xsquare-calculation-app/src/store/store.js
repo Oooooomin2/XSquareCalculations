@@ -18,6 +18,8 @@ const store = createStore({
                 "bg-red-100": false,
                 "border-red-500": false,
                 "text-red-700": false,
+                "sticky": false,
+                "bottom-2.5": false,
             },
             errors: []
         }
@@ -58,7 +60,7 @@ const store = createStore({
             if (!idToken) return;
 
             const expiredDateTime = localStorage.getItem('expiredDateTime');
-            const isExpired = new Date() >= expiredDateTime;
+            const isExpired = new Date() >= new Date(expiredDateTime);
             if (isExpired) {
                 router.replace('/user/login');
             } else {
@@ -67,6 +69,9 @@ const store = createStore({
         },
         refleshErrors({ commit }) {
             commit('refleshErrors');
+        },
+        addError({ commit }, data){
+            commit('addError', data);
         },
         login({ commit }, authData) {
             return new Promise((resolve, reject) => {
@@ -99,7 +104,6 @@ const store = createStore({
                     .catch(function (error) {
                         let errors = [];
                         if (error.response.data.content === 'LoginFailed') {
-                            console.log(error.response.data.message)
                             errors.push(error.response.data.message);
                         }
                         commit('updateAlert', {
@@ -142,41 +146,34 @@ const store = createStore({
                         UserId: this.state.userId,
                     },
                 })
-                .then((response) => {
-                    if (response.status === 200) {
-                        commit('updateAlert', {
-                            isResponse: true,
-                            responseTitle: 'Success!!',
-                            responseMessage: '登録完了しました！！',
-                            responseClass: {
-                                "bg-green-100": true,
-                                "border-green-500": true,
-                                "text-green-700": true,
-                                "bg-red-100": false,
-                                "border-red-500": false,
-                                "text-red-700": false,
-                            },
-                        })
-                        router.replace({ name: 'template-index', params: { createTemplate: 'success' } });
-                    } else {
-                        commit('updateAlert', {
-                            isResponse: true,
-                            responseTitle: 'Fail...',
-                            responseMessage: '登録失敗しました...ごめんなさい...',
-                            responseClass: {
-                                "bg-green-100": false,
-                                "border-green-500": false,
-                                "text-green-700": false,
-                                "bg-red-100": true,
-                                "border-red-500": true,
-                                "text-red-700": true,
-                            },
-                        })
-                    }
-                    console.log(response);
+                .then(() => {
+                    commit('updateAlert', {
+                        isResponse: true,
+                        responseTitle: 'Success!!',
+                        responseMessage: '登録完了しました！！',
+                        responseClass: {
+                            "bg-green-100": true,
+                            "border-green-500": true,
+                            "text-green-700": true,
+                            "bg-red-100": false,
+                            "border-red-500": false,
+                            "text-red-700": false,
+                            "sticky": true,
+                            "bottom-2.5": true
+                        },
+                    })
+                    router.replace({ name: 'template-index', params: { createTemplate: 'success' } });
                 })
-                .catch(function (error) {
-                    console.log(error);
+                .catch((error) => {
+                    let errors = [];
+                    if(error.response.data.content === 'ThumbNailFormatError'){
+                        errors.push(error.response.data.message);
+                    }
+
+                    if(error.response.data.content === 'TemplateFormatError'){
+                        errors.push(error.response.data.message);
+                    }
+
                     commit('updateAlert', {
                         isResponse: true,
                         responseTitle: 'Fail...',
@@ -189,7 +186,11 @@ const store = createStore({
                             "border-red-500": true,
                             "text-red-700": true,
                         },
-                    })
+                    });
+
+                    commit('addError', {
+                        errors: errors
+                    });
                 });
         },
         createUser({ commit }) {
