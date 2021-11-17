@@ -19,7 +19,15 @@ namespace XSquareCalculationsApi.Persistance
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Authenticate>()
-                .HasKey(c => new { c.UserId, c.IdToken });
+                .HasKey(c => new { c.AuthenticateId });
+            modelBuilder.Entity<Request>()
+                .HasKey(c => new { c.RequestId });
+            modelBuilder.Entity<MessagesWithTemplate>()
+                .HasKey(c => new { c.MessageId });
+            modelBuilder.Entity<Template>()
+                .HasKey(c => new { c.TemplateId });
+            modelBuilder.Entity<User>()
+                .HasKey(c => new { c.UserId });
         }
     }
 }

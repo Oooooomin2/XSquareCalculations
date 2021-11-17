@@ -8,11 +8,13 @@ namespace XSquareCalculationsApi.Entities
     public class Authenticate
     {
         [Key]
+        [Column("AUTHENTICATE_ID", TypeName = "integer")]
+        public int AuthenticateId { get; set; }
+
         [Column("USER_ID",TypeName = "integer")]
         public int UserId { get; set; }
         
-        [Key]
-        [Column("ID_TOKEN", TypeName = "varchar(32)")]
+        [Column("ID_TOKEN", TypeName = "text")]
         public string IdToken { get; set; }
 
         [Column("EXPIRED_DATETIME", TypeName = "datetime")]
