@@ -7,7 +7,6 @@ namespace XSquareCalculationsApi.Entities
     [Table("USERS")]
     public class User
     {
-        [Key]
         [Column("USER_ID",TypeName = "integer")]
         public int UserId { get; set; }
 

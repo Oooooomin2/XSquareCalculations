@@ -15,15 +15,17 @@ namespace XSquareCalculationsApi.Migrations
                 name: "ATHENTICATES",
                 columns: table => new
                 {
-                    USER_ID = table.Column<int>(type: "int", nullable: false),
-                    ID_TOKEN = table.Column<string>(type: "varchar(100)", nullable: false)
+                    AUTHENTICATE_ID = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    USER_ID = table.Column<int>(type: "integer", nullable: false),
+                    ID_TOKEN = table.Column<string>(type: "text", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     EXPIRED_DATETIME = table.Column<DateTime>(type: "datetime", nullable: false),
                     CREATED_TIME = table.Column<DateTime>(type: "datetime", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ATHENTICATES", x => new { x.USER_ID, x.ID_TOKEN });
+                    table.PrimaryKey("PK_ATHENTICATES", x => x.AUTHENTICATE_ID);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -31,7 +33,7 @@ namespace XSquareCalculationsApi.Migrations
                 name: "MESSAGES_WITH_TEMPLATE",
                 columns: table => new
                 {
-                    MESSAGE_ID = table.Column<int>(type: "int", nullable: false)
+                    MESSAGE_ID = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     MESSAGE = table.Column<string>(type: "varchar(140)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -52,7 +54,7 @@ namespace XSquareCalculationsApi.Migrations
                 name: "REQUESTS",
                 columns: table => new
                 {
-                    REQUEST_ID = table.Column<int>(type: "int", nullable: false)
+                    REQUEST_ID = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     REQUEST_CONTENT = table.Column<string>(type: "varchar(400)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -72,7 +74,7 @@ namespace XSquareCalculationsApi.Migrations
                 name: "TEMPLATES",
                 columns: table => new
                 {
-                    TEMPLATE_ID = table.Column<int>(type: "int", nullable: false)
+                    TEMPLATE_ID = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     TEMPLATE_NAME = table.Column<string>(type: "varchar(45)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -97,7 +99,7 @@ namespace XSquareCalculationsApi.Migrations
                 name: "USERS",
                 columns: table => new
                 {
-                    USER_ID = table.Column<int>(type: "int", nullable: false)
+                    USER_ID = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     USER_NAME = table.Column<string>(type: "varchar(35)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),

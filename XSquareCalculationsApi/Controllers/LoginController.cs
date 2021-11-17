@@ -12,17 +12,20 @@ namespace XSquareCalculationsApi.Controllers
     {
         private readonly IResolveAthenticateRepository _resolveAthenticateRepository;
         private readonly IResolveUsersRepository _resolveUserRepository;
+        private readonly IResolveJwtAuthenticate _resolveJwtAuthenticate;
         private readonly IPassword _password;
         private readonly ISystemDate _systemDate;
 
         public LoginController(
             IResolveAthenticateRepository resolveAthenticateRepository,
             IResolveUsersRepository resolveUserRepository,
+            IResolveJwtAuthenticate resolveJwtAuthenticate,
             IPassword password,
             ISystemDate systemDate)
         {
             _resolveAthenticateRepository = resolveAthenticateRepository;
             _resolveUserRepository = resolveUserRepository;
+            _resolveJwtAuthenticate = resolveJwtAuthenticate;
             _password = password;
             _systemDate = systemDate;
         }
@@ -45,18 +48,17 @@ namespace XSquareCalculationsApi.Controllers
             var userPasswordBase64 = _password.CreatePasswordHashBase64(target.PasswordSalt, user.UserPassword);
             if (target.UserPassword == userPasswordBase64)
             {
-                string token = Guid.NewGuid().ToString("N").Substring(0, 32);
-                var createdTime = _systemDate.GetSystemDate();
+                var jwtResponse = _resolveJwtAuthenticate.CreateJwtResponse(target.UserId,target.UserName);
                 var auth = new Authenticate
                 {
-                    UserId = target.UserId,
-                    IdToken = token,
-                    ExpiredDateTime = createdTime.AddHours(12),
-                    CreatedTime = createdTime
+                    UserId = jwtResponse.UserId,
+                    IdToken = jwtResponse.IdToken,
+                    ExpiredDateTime = jwtResponse.ExpiredDateTime,
+                    CreatedTime = jwtResponse.CreatedTime
                 };
                 _resolveAthenticateRepository.AddLoginHistory(auth);
 
-                return Ok(new { auth.UserId, auth.IdToken, auth.ExpiredDateTime });
+                return Ok(jwtResponse);
             }
             else
             {

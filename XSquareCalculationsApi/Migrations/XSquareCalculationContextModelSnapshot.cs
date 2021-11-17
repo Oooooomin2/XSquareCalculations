@@ -19,13 +19,10 @@ namespace XSquareCalculationsApi.Migrations
 
             modelBuilder.Entity("XSquareCalculationsApi.Entities.Authenticate", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int")
-                        .HasColumnName("USER_ID");
-
-                    b.Property<string>("IdToken")
-                        .HasColumnType("varchar(32)")
-                        .HasColumnName("ID_TOKEN");
+                    b.Property<int>("AuthenticateId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("AUTHENTICATE_ID");
 
                     b.Property<DateTime>("CreatedTime")
                         .HasColumnType("datetime")
@@ -35,7 +32,15 @@ namespace XSquareCalculationsApi.Migrations
                         .HasColumnType("datetime")
                         .HasColumnName("EXPIRED_DATETIME");
 
-                    b.HasKey("UserId", "IdToken");
+                    b.Property<string>("IdToken")
+                        .HasColumnType("text")
+                        .HasColumnName("ID_TOKEN");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("USER_ID");
+
+                    b.HasKey("AuthenticateId");
 
                     b.ToTable("ATHENTICATES");
                 });
@@ -44,7 +49,7 @@ namespace XSquareCalculationsApi.Migrations
                 {
                     b.Property<int>("MessageId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("MESSAGE_ID");
 
                     b.Property<DateTime>("CreatedTime")
@@ -81,7 +86,7 @@ namespace XSquareCalculationsApi.Migrations
                 {
                     b.Property<int>("RequestId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("REQUEST_ID");
 
                     b.Property<DateTime>("CreatedTime")
@@ -114,7 +119,7 @@ namespace XSquareCalculationsApi.Migrations
                 {
                     b.Property<int>("TemplateId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("TEMPLATE_ID");
 
                     b.Property<DateTime>("CreatedTime")
@@ -163,7 +168,7 @@ namespace XSquareCalculationsApi.Migrations
                 {
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("integer")
                         .HasColumnName("USER_ID");
 
                     b.Property<DateTime>("CreatedTime")
