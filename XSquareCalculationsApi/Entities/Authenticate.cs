@@ -8,7 +8,7 @@ namespace XSquareCalculationsApi.Entities
     public class Authenticate
     {
         [Key]
-        [Column("AUTHENTICATE_ID", TypeName = "integer")]
+        [Column("AUTHENTICATE_ID")]
         public int AuthenticateId { get; set; }
 
         [Column("USER_ID",TypeName = "integer")]

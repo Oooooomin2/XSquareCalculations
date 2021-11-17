@@ -21,7 +21,7 @@ namespace XSquareCalculationsApi.Migrations
                 {
                     b.Property<int>("AuthenticateId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("AUTHENTICATE_ID");
 
                     b.Property<DateTime>("CreatedTime")
@@ -49,7 +49,7 @@ namespace XSquareCalculationsApi.Migrations
                 {
                     b.Property<int>("MessageId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("MESSAGE_ID");
 
                     b.Property<DateTime>("CreatedTime")
@@ -86,7 +86,7 @@ namespace XSquareCalculationsApi.Migrations
                 {
                     b.Property<int>("RequestId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("REQUEST_ID");
 
                     b.Property<DateTime>("CreatedTime")
@@ -119,7 +119,7 @@ namespace XSquareCalculationsApi.Migrations
                 {
                     b.Property<int>("TemplateId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("TEMPLATE_ID");
 
                     b.Property<DateTime>("CreatedTime")
@@ -168,7 +168,7 @@ namespace XSquareCalculationsApi.Migrations
                 {
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasColumnName("USER_ID");
 
                     b.Property<DateTime>("CreatedTime")

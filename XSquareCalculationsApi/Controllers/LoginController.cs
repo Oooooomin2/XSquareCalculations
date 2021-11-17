@@ -14,20 +14,17 @@ namespace XSquareCalculationsApi.Controllers
         private readonly IResolveUsersRepository _resolveUserRepository;
         private readonly IResolveJwtAuthenticate _resolveJwtAuthenticate;
         private readonly IPassword _password;
-        private readonly ISystemDate _systemDate;
 
         public LoginController(
             IResolveAthenticateRepository resolveAthenticateRepository,
             IResolveUsersRepository resolveUserRepository,
             IResolveJwtAuthenticate resolveJwtAuthenticate,
-            IPassword password,
-            ISystemDate systemDate)
+            IPassword password)
         {
             _resolveAthenticateRepository = resolveAthenticateRepository;
             _resolveUserRepository = resolveUserRepository;
             _resolveJwtAuthenticate = resolveJwtAuthenticate;
             _password = password;
-            _systemDate = systemDate;
         }
 
         [HttpPost]

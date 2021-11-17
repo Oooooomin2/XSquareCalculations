@@ -8,7 +8,7 @@ namespace XSquareCalculationsApi.Entities
     public class Request
     {
         [Key]
-        [Column("REQUEST_ID", TypeName = "integer")]
+        [Column("REQUEST_ID")]
         public int RequestId { get; set; }
 
         [Column("REQUEST_CONTENT", TypeName = "varchar(400)")]

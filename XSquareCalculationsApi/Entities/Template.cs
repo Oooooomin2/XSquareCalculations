@@ -8,7 +8,7 @@ namespace XSquareCalculationsApi.Entities
     public class Template
     {
         [Key]
-        [Column("TEMPLATE_ID",TypeName = "integer")]
+        [Column("TEMPLATE_ID")]
         public int TemplateId { get; set; }
 
         [Column("TEMPLATE_NAME", TypeName = "varchar(45)")]
