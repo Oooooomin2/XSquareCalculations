@@ -30,47 +30,6 @@ namespace XSquareCalculationsApi.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "MESSAGES_WITH_TEMPLATE",
-                columns: table => new
-                {
-                    MESSAGE_ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    MESSAGE = table.Column<string>(type: "varchar(140)", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    USER_ID = table.Column<int>(type: "int", nullable: false),
-                    TEMPLATE_ID = table.Column<int>(type: "int", nullable: false),
-                    DEL_FLG = table.Column<string>(type: "char", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    CREATED_TIME = table.Column<DateTime>(type: "Datetime", nullable: false),
-                    UPDATED_TIME = table.Column<DateTime>(type: "Datetime", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MESSAGES_WITH_TEMPLATE", x => x.MESSAGE_ID);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "REQUESTS",
-                columns: table => new
-                {
-                    REQUEST_ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    REQUEST_CONTENT = table.Column<string>(type: "varchar(400)", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    USER_ID = table.Column<int>(type: "int", nullable: false),
-                    DEL_FLG = table.Column<string>(type: "char", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    CREATED_TIME = table.Column<DateTime>(type: "Datetime", nullable: false),
-                    UPDATED_TIME = table.Column<DateTime>(type: "Datetime", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_REQUESTS", x => x.REQUEST_ID);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "TEMPLATES",
                 columns: table => new
                 {
@@ -124,12 +83,6 @@ namespace XSquareCalculationsApi.Migrations
         {
             migrationBuilder.DropTable(
                 name: "ATHENTICATES");
-
-            migrationBuilder.DropTable(
-                name: "MESSAGES_WITH_TEMPLATE");
-
-            migrationBuilder.DropTable(
-                name: "REQUESTS");
 
             migrationBuilder.DropTable(
                 name: "TEMPLATES");
