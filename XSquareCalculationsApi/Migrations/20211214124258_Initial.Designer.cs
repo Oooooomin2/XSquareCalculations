@@ -9,7 +9,7 @@ using XSquareCalculationsApi.Persistance;
 namespace XSquareCalculationsApi.Migrations
 {
     [DbContext(typeof(XSquareCalculationContext))]
-    [Migration("20211117085259_Initial")]
+    [Migration("20211214124258_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,76 +45,6 @@ namespace XSquareCalculationsApi.Migrations
                     b.HasKey("AuthenticateId");
 
                     b.ToTable("ATHENTICATES");
-                });
-
-            modelBuilder.Entity("XSquareCalculationsApi.Entities.MessagesWithTemplate", b =>
-                {
-                    b.Property<int>("MessageId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("MESSAGE_ID");
-
-                    b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("Datetime")
-                        .HasColumnName("CREATED_TIME");
-
-                    b.Property<string>("DelFlg")
-                        .IsRequired()
-                        .HasColumnType("char")
-                        .HasColumnName("DEL_FLG");
-
-                    b.Property<string>("Message")
-                        .HasColumnType("varchar(140)")
-                        .HasColumnName("MESSAGE");
-
-                    b.Property<int>("TemplateId")
-                        .HasColumnType("int")
-                        .HasColumnName("TEMPLATE_ID");
-
-                    b.Property<DateTime>("UpdatedTime")
-                        .HasColumnType("Datetime")
-                        .HasColumnName("UPDATED_TIME");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int")
-                        .HasColumnName("USER_ID");
-
-                    b.HasKey("MessageId");
-
-                    b.ToTable("MESSAGES_WITH_TEMPLATE");
-                });
-
-            modelBuilder.Entity("XSquareCalculationsApi.Entities.Request", b =>
-                {
-                    b.Property<int>("RequestId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("REQUEST_ID");
-
-                    b.Property<DateTime>("CreatedTime")
-                        .HasColumnType("Datetime")
-                        .HasColumnName("CREATED_TIME");
-
-                    b.Property<string>("DelFlg")
-                        .IsRequired()
-                        .HasColumnType("char")
-                        .HasColumnName("DEL_FLG");
-
-                    b.Property<string>("RequestContent")
-                        .HasColumnType("varchar(400)")
-                        .HasColumnName("REQUEST_CONTENT");
-
-                    b.Property<DateTime>("UpdatedTime")
-                        .HasColumnType("Datetime")
-                        .HasColumnName("UPDATED_TIME");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int")
-                        .HasColumnName("USER_ID");
-
-                    b.HasKey("RequestId");
-
-                    b.ToTable("REQUESTS");
                 });
 
             modelBuilder.Entity("XSquareCalculationsApi.Entities.Template", b =>

@@ -18,24 +18,6 @@ namespace XSquareCalculationsApi.Controllers
             _password = password;
         }
 
-        /*[HttpGet]
-        public async Task<IEnumerable<User>> GetUsers()
-        {
-            return await _context.Users.ToListAsync();
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUserDetail(int id)
-        {
-            var detail = await _context.Users.SingleOrDefaultAsync(o => o.UserId == id);
-            if(detail == null)
-            {
-                return NotFound();
-            }
-
-            return detail;
-        }*/
-
         [HttpPost]
         public ActionResult Create([FromForm] User user)
         {
@@ -67,37 +49,5 @@ namespace XSquareCalculationsApi.Controllers
 
             return Ok();
         }
-
-        /*[HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] User user)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var target = await _context.Users.FindAsync(id);
-            if (target == null)
-                return NotFound();
-
-            target.UserName = user.UserName;
-            target.UpdatedTime = user.UpdatedTime;
-
-            _context.Users.Update(target);
-            await _context.SaveChangesAsync();
-
-            return Ok();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var target = await _context.Users.FindAsync(id);
-            if (target == null)
-                return NotFound();
-
-            target.DelFlg = "1";
-            await _context.SaveChangesAsync();
-
-            return Ok(id);
-        }*/
     }
 }

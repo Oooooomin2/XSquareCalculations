@@ -10,8 +10,6 @@ namespace XSquareCalculationsApi.Persistance
         {
         }
 
-        public DbSet<MessagesWithTemplate> MessagesWithTemplates { get; set; }
-        public DbSet<Request> Requests { get; set; }
         public DbSet<Template> Templates { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Authenticate> Authenticates { get; set; }
